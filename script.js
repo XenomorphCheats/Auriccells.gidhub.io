@@ -16,22 +16,22 @@ document.getElementById('generatorForm').addEventListener('submit', function(eve
         } else {
             resultDiv.textContent = `Failed to generate Auric Cells for ${username}`;
         }
-        loadBanList();
+        loadUsers();
     });
 });
 
-function loadBanList() {
-    fetch('/bans')
+function loadUsers() {
+    fetch('/users')
     .then(response => response.json())
     .then(data => {
-        const banList = document.getElementById('banList');
-        banList.innerHTML = '';
-        data.bans.forEach(ban => {
+        const userList = document.getElementById('userList');
+        userList.innerHTML = '';
+        data.users.forEach(user => {
             const li = document.createElement('li');
-            li.textContent = `IP: ${ban.ip}, Username: ${ban.username}`;
-            banList.appendChild(li);
+            li.textContent = `${user.username} (${user.type})`;
+            userList.appendChild(li);
         });
     });
 }
 
-window.onload = loadBanList;
+window.onload = loadUsers;
