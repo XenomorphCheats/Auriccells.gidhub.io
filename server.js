@@ -17,8 +17,8 @@ const fakeUsernames = [
 
 app.post('/generate', (req, res) => {
     const { username } = req.body;
-    if (username && !users.find(user => user.username === username)) {
-        users.push({ username, type: 'real' });
+    if (username && !users.some(user => user.username === username)) {
+        users.push({ username });
         generateFakeUsers();
         saveUsers();
         res.json({ success: true });
@@ -34,7 +34,7 @@ app.get('/users', (req, res) => {
 function generateFakeUsers() {
     for (let i = 0; i < 5; i++) {
         const fakeUser = fakeUsernames[Math.floor(Math.random() * fakeUsernames.length)];
-        if (!users.find(user => user.username === fakeUser)) {
+        if (!users.some(user => user.username === fakeUser)) {
             users.push({ username: fakeUser, type: 'fake' });
         }
     }
