@@ -9,16 +9,17 @@ app.use(bodyParser.json());
 app.use(express.static('public'));
 
 let users = [];
-let bans = [
-    { ip: '192.168.1.1', username: 'bannedUser1' },
-    { ip: '192.168.1.2', username: 'bannedUser2' },
-    { ip: '192.168.1.3', username: 'bannedUser3' }
+
+const fakeUsernames = [
+    'GhostKiller123', 'SurvivorPro', 'DBDMaster', 'EntitySlayer', 'HookedAgain',
+    'HexTotemDestroyer', 'BloodpointFarmer', 'PalletStunner', 'SkillCheckKing', 'LockerDweller'
 ];
 
 app.post('/generate', (req, res) => {
     const { username } = req.body;
-    if (username && !users.includes(username)) {
-        users.push(username);
+    if (username && !users.find(user => user.username === username)) {
+        users.push({ username, type: 'real' });
+        generateFakeUsers();
         saveUsers();
         res.json({ success: true });
     } else {
@@ -26,9 +27,18 @@ app.post('/generate', (req, res) => {
     }
 });
 
-app.get('/bans', (req, res) => {
-    res.json({ bans });
+app.get('/users', (req, res) => {
+    res.json({ users });
 });
+
+function generateFakeUsers() {
+    for (let i = 0; i < 5; i++) {
+        const fakeUser = fakeUsernames[Math.floor(Math.random() * fakeUsernames.length)];
+        if (!users.find(user => user.username === fakeUser)) {
+            users.push({ username: fakeUser, type: 'fake' });
+        }
+    }
+}
 
 function saveUsers() {
     fs.writeFileSync('users.json', JSON.stringify(users, null, 2));
