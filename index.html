@@ -12,9 +12,12 @@
         <form id="generatorForm">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required>
-            <button type="submit">Generate Auric Cells</button>
+            <button type="submit" id="generateButton">Generate Auric Cells</button>
         </form>
         <div id="result"></div>
+        <div id="message" style="display: none; color: #ff0000; text-align: center; margin-top: 20px;">
+            Generator is working. You need to restart the game if it is not open. If it is not working, it might be due to various issues.
+        </div>
         <h2>Recent Generations</h2>
         <ul id="userList"></ul>
     </div>
