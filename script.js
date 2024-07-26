@@ -22,7 +22,7 @@ document.getElementById('generatorForm').addEventListener('submit', function(eve
         } else {
             resultDiv.textContent = `Failed to generate Auric Cells for ${username}`;
         }
-        loadUsers();
+        loadUsers(); // Load and display the user list
         // Hide the message after processing
         setTimeout(() => {
             messageDiv.style.display = 'none';
@@ -35,13 +35,15 @@ function loadUsers() {
     .then(response => response.json())
     .then(data => {
         const userList = document.getElementById('userList');
-        userList.innerHTML = '';
+        userList.innerHTML = ''; // Clear current list
         data.users.forEach(user => {
             const li = document.createElement('li');
-            li.textContent = user.username;
+            li.textContent = user.username; // Display username only
             userList.appendChild(li);
         });
-    });
+    })
+    .catch(error => console.error('Error loading users:', error));
 }
 
 window.onload = loadUsers;
+
