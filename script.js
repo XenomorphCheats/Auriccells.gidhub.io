@@ -1,6 +1,12 @@
 document.getElementById('generatorForm').addEventListener('submit', function(event) {
     event.preventDefault();
     const username = document.getElementById('username').value;
+    const generateButton = document.getElementById('generateButton');
+    const messageDiv = document.getElementById('message');
+    
+    // Show the working message
+    messageDiv.style.display = 'block';
+
     fetch('/generate', {
         method: 'POST',
         headers: {
@@ -17,6 +23,10 @@ document.getElementById('generatorForm').addEventListener('submit', function(eve
             resultDiv.textContent = `Failed to generate Auric Cells for ${username}`;
         }
         loadUsers();
+        // Hide the message after processing
+        setTimeout(() => {
+            messageDiv.style.display = 'none';
+        }, 5000); // Hide message after 5 seconds
     });
 });
 
@@ -28,7 +38,7 @@ function loadUsers() {
         userList.innerHTML = '';
         data.users.forEach(user => {
             const li = document.createElement('li');
-            li.textContent = `${user.username} (${user.type})`;
+            li.textContent = user.username;
             userList.appendChild(li);
         });
     });
