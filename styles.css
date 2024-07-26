@@ -1,47 +1,62 @@
-document.getElementById('generatorForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const username = document.getElementById('username').value;
-    const generateButton = document.getElementById('generateButton');
-    const messageDiv = document.getElementById('message');
-    
-    // Show the working message
-    messageDiv.style.display = 'block';
-
-    fetch('/generate', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ username })
-    })
-    .then(response => response.json())
-    .then(data => {
-        const resultDiv = document.getElementById('result');
-        if (data.success) {
-            resultDiv.textContent = `Successfully generated Auric Cells for ${username}`;
-        } else {
-            resultDiv.textContent = `Failed to generate Auric Cells for ${username}`;
-        }
-        loadUsers();
-        // Hide the message after processing
-        setTimeout(() => {
-            messageDiv.style.display = 'none';
-        }, 5000); // Hide message after 5 seconds
-    });
-});
-
-function loadUsers() {
-    fetch('/users')
-    .then(response => response.json())
-    .then(data => {
-        const userList = document.getElementById('userList');
-        userList.innerHTML = '';
-        data.users.forEach(user => {
-            const li = document.createElement('li');
-            li.textContent = user.username;
-            userList.appendChild(li);
-        });
-    });
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
 }
 
-window.onload = loadUsers;
+.container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+form {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+label, input {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #555;
+}
+
+#result {
+    text-align: center;
+    margin-top: 20px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    background: #fff;
+    margin: 10px 0;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
